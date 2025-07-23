@@ -1,0 +1,35 @@
+h1 {
+    color: #274472 !important;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 700;
+}
+
+.prediction-result {
+    font-size: 2.5em;
+    padding: 14px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.low {
+    background: #e1fae7;
+    color: #159118;
+}
+
+.mid {
+    background: #fff9de;
+    color: #b48c09;
+}
+
+.high {
+    background: #fbeaea;
+    color: #e34248;
+}
+
+.footer {
+    padding: 10px 2px;
+    color: #888;
+    text-align: center;
+    font-size: 0.8em;
+    margin-top: 36px;
+}
