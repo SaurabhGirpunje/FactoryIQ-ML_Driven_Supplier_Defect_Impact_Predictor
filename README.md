@@ -6,8 +6,7 @@ This project leverages machine learning to analyze and predict the impact of sup
 
 ## 🌐 Live Demo
 
-👉 **Try the interactive app here**: [FactoryIQ ML App – Streamlit](https://your-streamlit-app-link.streamlit.app)  
-> _Replace this link with your actual Streamlit deployment URL._
+👉 **Try the interactive app here**: [FactoryIQ ML App – Streamlit](https://factoryiq-mldrivensupplierdefectimpactpredictor.streamlit.app/)  
 
 ---
 
