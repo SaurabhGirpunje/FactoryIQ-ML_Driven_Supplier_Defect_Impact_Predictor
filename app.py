@@ -2,6 +2,8 @@ import streamlit as st
 import pickle
 import pandas as pd
 
+from encoding_config import custom_encoding
+
 st.set_page_config(page_title="Downtime Predictor", layout='wide')
 
 # Inject custom CSS/JS
@@ -48,7 +50,7 @@ defect_qty = st.sidebar.number_input(
 
 # Load model/scaler
 with open("final_model_xgb.pkl", "rb") as f:
-    scaler, model = pickle.load(f)
+    encoders_dict, scaler, model = pickle.load(f)
 
 input_dict = {
     'Category': [category],
@@ -58,13 +60,24 @@ input_dict = {
     'Grouped_Material_Type': [material_type],
     'Total_Defect_Qty': [defect_qty]
 }
-input_df = pd.DataFrame(input_dict)
+input_original_df = pd.DataFrame(input_dict)  # This will keep original labels for display
+
+# Make a copy for encoding and modeling
+input_df = input_original_df.copy()
+
+# Apply custom encoding
+for col in custom_encoding:
+    if col in input_df.columns:
+        input_df[col] = input_df[col].map(custom_encoding[col])
+
 
 # Create a copy for model input that will use the scaled value
 input_for_model = input_df.copy()
 
 input_for_model['Total_Defect_Qty'] = scaler.transform(input_for_model[['Total_Defect_Qty']])
-input_encoded = pd.get_dummies(input_for_model)
+
+# input_encoded = pd.get_dummies(input_for_model)
+input_encoded = input_for_model.copy()
 model_columns = model.feature_names_in_
 missing_cols = set(model_columns) - set(input_encoded.columns)
 for col in missing_cols:
@@ -74,7 +87,7 @@ input_encoded = input_encoded[model_columns]
 low_threshold = 1904   # 25th percentile
 mid_threshold = 3627   # 50th percentile (median)
 
-if st.button("🔍 Predict Downtime Minutes"):
+if st.button("🔍 Predict Downtime"):
     prediction = model.predict(input_encoded)[0]
     prediction = int(round(prediction))
     if prediction < low_threshold:
@@ -85,13 +98,21 @@ if st.button("🔍 Predict Downtime Minutes"):
     else:
         pred_class, pred_msg = "high", "🚨 High downtime risk. Please review supplier process."
 
-    st.markdown(f'<div class="prediction-result {pred_class}">{round(prediction)} minutes<br><span>{pred_msg}</span></div>', unsafe_allow_html=True)
+    # st.markdown(f'<div class="prediction-result {pred_class}">{round(prediction)} minutes<br><span>{pred_msg}</span></div>', unsafe_allow_html=True)
+    hrs = prediction // 60
+    mins = prediction % 60
+    duration = f"{hrs} hr {mins} min"
+    st.markdown(f'<div class="prediction-result {pred_class}">{duration}<br><span>{pred_msg}</span></div>', unsafe_allow_html=True)
+
     st.subheader("🧾 Input Summary")
-    st.table(input_df.T)
+    st.table(input_original_df.T)
+
+    data = input_original_df.copy()
+    data["Predicted_Downtime_Minutes"] = prediction
 
     st.download_button(
         label="⬇️ Download Prediction & Inputs (CSV)",
-        data=input_df.assign(Predicted_Downtime_Minutes=prediction).to_csv(index=False),
+        data=data.to_csv(index=False),
         file_name="downtime_prediction.csv",
         mime="text/csv"
     )
