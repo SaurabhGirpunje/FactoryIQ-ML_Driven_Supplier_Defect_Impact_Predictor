@@ -3,3 +3,8 @@ numpy
 pandas
 xgboost
 scikit-learn
+matplotlib
+statsmodels
+seaborn
+openpyxl
+sentence_transformers
