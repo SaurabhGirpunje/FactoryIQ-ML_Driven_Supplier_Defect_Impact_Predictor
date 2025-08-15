@@ -59,13 +59,13 @@ Build a machine learning system that predicts whether a supplier-related defect 
 
 ## ⚙️ Model Performance Comparison
 
-| Model                   | Train MAE | Test MAE | Train RMSE | Test RMSE | Train R² | Test R² |
-|------------------------|-----------|----------|------------|-----------|----------|---------|
-| **Decision Tree**       | 11.08     | 235.85   | 107.12     | 677.35    | 1.00     | 0.82    |
-| **Random Forest**       | 78.46     | 207.96   | 204.26     | 524.83    | 0.98     | 0.89    |
-| **AdaBoost**            | 315.92    | 327.34   | 505.32     | 525.90    | 0.90     | 0.89    |
-| **Gradient Boosting**   | 170.00    | 190.32   | 434.29     | 487.61    | 0.92     | 0.91    |
-| **XGBoost (Default)**   | 132.39    | 230.30   | 308.68     | 530.08    | 0.96     | 0.89    |
+| Model                 | Train MAE | Test MAE | Train RMSE | Test RMSE | Train R² | Test R² |
+| --------------------- | --------- | -------- | ---------- | --------- | -------- | ------- |
+| **Decision Tree**     | 11.08     | 248.30   | 107.12     | 690.14    | 1.00     | 0.81    |
+| **Random Forest**     | 79.60     | 218.16   | 204.47     | 528.09    | 0.98     | 0.89    |
+| **AdaBoost**          | 323.52    | 336.24   | 511.78     | 530.12    | 0.89     | 0.89    |
+| **Gradient Boosting** | 169.65    | 189.38   | 434.71     | 484.34    | 0.92     | 0.91    |
+| **XGBoost**           | 134.60    | 227.75   | 315.76     | 525.77    | 0.96     | 0.89    |
 
 ---
 
